@@ -21,13 +21,13 @@ class DataIngestion:
     def export_data_into_feature_store(self) -> DataFrame:
 
         try:
-            logging("Taking data from mongodb")
+            logging.info("Taking data from mongodb")
             usvisa_data = USvisaData()
             dataframe = usvisa_data.export_collection_as_dataframe(collection_name=self.data_ingestion_config.collection_name)
             logging.info(f"Shape of the Dataframe: {dataframe.shape}")
             feature_store_file_path = self.data_ingestion_config.feature_store_file_path
             dir_path = os.path.dirname(feature_store_file_path)
-            os.makedir(dir_path,exist_ok=True)
+            os.makedirs(dir_path,exist_ok=True)
             logging.info(f"Saving the data to : {feature_store_file_path} ")
             dataframe.to_csv(feature_store_file_path,index=False,header=True)
             return dataframe
@@ -40,15 +40,18 @@ class DataIngestion:
         logging.info("Entered train_test_split")
 
         try:
-            train_set, test_set = train_test_split(dataframe, self.data_ingestion_config.train_test_split_ratio,random_state=42)
+            print(f"Type of dataframe: {type(dataframe)}")
+            print(f"Shape of dataframe: {getattr(dataframe, 'shape', 'N/A')}")
+            print(f"Split ratio: {self.data_ingestion_config.train_test_split_ratio}")
+            train_set, test_set = train_test_split(dataframe, test_size=self.data_ingestion_config.train_test_split_ratio,random_state=42)
             train_file_path = self.data_ingestion_config.training_file_path
             dir_path = os.path.dirname(train_file_path)
-            os.makedir(dir_path,exist_ok = True)
+            os.makedirs(dir_path,exist_ok = True)
             test_file_path = self.data_ingestion_config.test_file_path
             dir_path1 = os.path.dirname(test_file_path)
-            os.makedir(dir_path1,exist_ok = True)
+            os.makedirs(dir_path1,exist_ok = True)
             train_set.to_csv(train_file_path,index=False,header=True)
-            test_set.to_csv(test_file_path,indes=False,header=True)
+            test_set.to_csv(test_file_path,index=False,header=True)
             logging.info("done train and test")
 
         except Exception as e:
@@ -70,7 +73,7 @@ class DataIngestion:
             logging.info("Train Test Split Done. Exiting the data ingestion")
 
             data_ingestion_artifact = DataIngestionArtifact(trained_file_path=self.data_ingestion_config.training_file_path,
-                                                            test_file_path=self.data_ingestion_config.testing_file_path)
+                                                            test_file_path=self.data_ingestion_config.test_file_path)
             
             logging.info(f"Data ingestion artifact :{data_ingestion_artifact}")
             return data_ingestion_artifact
