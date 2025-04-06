@@ -5,7 +5,7 @@ DATABASE_NAME = "US_VISA"
 
 COLLECTION_NAME = "VISA_DATA"
 
-MONGODB_URL_KEY = "mongodb+srv://vm99app:vm99app@cluster0.hsov1.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+MONGODB_URL_KEY = "MONGODB_URL"
 
 PIPELINE_NAME :str = "usvisa"
 ARTIFACT_DIR :str = "artifact"
