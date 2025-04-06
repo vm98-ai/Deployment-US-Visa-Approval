@@ -60,4 +60,3 @@ APP_HOST = "0.0.0.0"
 APP_PORT = 8080
 
 
-URL = "626635433859.dkr.ecr.ap-southeast-2.amazonaws.com/visa2025"
