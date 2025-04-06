@@ -7,7 +7,7 @@ from us_visa.logger import logging
 import sys
 import pandas as pd
 from typing import Optional
-from us_visa.entity.s3_estimator import UsVisaEstimator
+from us_visa.entity.s3_estimator import UsvisaEstimator
 from dataclasses import dataclass
 from us_visa.entity.estimator import USvisaModel
 from us_visa.entity.estimator import TargetValueMapping
@@ -33,12 +33,12 @@ class ModelEvaluation:
         except Exception as e:
             raise USvisaException(e,sys)
 
-    def get_best_model(self) -> Optional[UsVisaEstimator]:
+    def get_best_model(self) -> Optional[UsvisaEstimator]:
 
         try:
             bucket_name = self.model_eval_config.bucket_name
             model_path = self.model_eval_config.s3_model_key_path
-            usvisa_estimator = UsVisaEstimator(bucket_name=bucket_name,
+            usvisa_estimator = UsvisaEstimator(bucket_name=bucket_name,
                                                model_path=model_path)
             
             if usvisa_estimator.is_model_available(model_path=model_path):
