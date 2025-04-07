@@ -1,13 +1,13 @@
 import boto3
 from us_visa.configuration.aws_connection import S3Client
 from io import StringIO
-from typing import Union, List
+from typing import Union,List
 import os,sys
 from us_visa.logger import logging
 from mypy_boto3_s3.service_resource import Bucket
 from us_visa.exception import USvisaException
 from botocore.exceptions import ClientError
-from pandas import DataFrame, read_csv
+from pandas import DataFrame,read_csv
 import pickle
 
 
@@ -18,8 +18,7 @@ class SimpleStorageService:
         self.s3_resource = s3_client.s3_resource
         self.s3_client = s3_client.s3_client
 
-    def s3_key_path_available(self, bucket_name, s3_key) -> bool:
-
+    def s3_key_path_available(self,bucket_name,s3_key)->bool:
         try:
             bucket = self.get_bucket(bucket_name)
             file_objects = [file_object for file_object in bucket.objects.filter(Prefix=s3_key)]
@@ -28,7 +27,9 @@ class SimpleStorageService:
             else:
                 return False
         except Exception as e:
-            raise USvisaException(e,sys) from e
+            raise USvisaException(e,sys)
+        
+        
 
     @staticmethod
     def read_object(object_name: str, decode: bool = True, make_readable: bool = False) -> Union[StringIO, str]:
@@ -128,7 +129,7 @@ class SimpleStorageService:
             file_object = self.get_file_object(model_file, bucket_name)
             model_obj = self.read_object(file_object, decode=False)
             model = pickle.loads(model_obj)
-            logging.info("Exited the load_model method of S3 Operations class")
+            logging.info("Exited the load_model method of S3Operations class")
             return model
 
         except Exception as e:

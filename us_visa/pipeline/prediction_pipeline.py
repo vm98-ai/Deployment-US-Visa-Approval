@@ -4,7 +4,7 @@ import sys
 import numpy as np
 import pandas as pd
 from us_visa.entity.config_entity import USvisaPredictorConfig
-from us_visa.entity.s3_estimator import UsvisaEstimator
+from us_visa.entity.s3_estimator import USvisaEstimator
 from us_visa.exception import USvisaException
 from us_visa.logger import logging
 from us_visa.utils.main_utils import read_yaml_file
@@ -105,7 +105,7 @@ class USvisaClassifier:
         """
         try:
             logging.info("Entered predict method of USvisaClassifier class")
-            model = UsvisaEstimator(
+            model = USvisaEstimator(
                 bucket_name=self.prediction_pipeline_config.model_bucket_name,
                 model_path=self.prediction_pipeline_config.model_file_path,
             )
